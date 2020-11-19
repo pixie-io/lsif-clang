@@ -1,0 +1,6 @@
+build
+bin
+.clangd
+compile_commands.json
+dump.lsif
+cmake-build-debug

@@ -608,7 +608,7 @@ TextEdit replacementToEdit(llvm::StringRef Code,
   Range ReplacementRange = {
       offsetToPosition(Code, R.getOffset()),
       offsetToPosition(Code, R.getOffset() + R.getLength())};
-  return {ReplacementRange, R.getReplacementText()};
+  return {ReplacementRange, std::string(R.getReplacementText())};
 }
 
 std::vector<TextEdit> replacementsToEdits(llvm::StringRef Code,
@@ -928,11 +928,11 @@ std::vector<std::string> visibleNamespaces(llvm::StringRef Code,
 
   std::vector<std::string> Found;
   for (llvm::StringRef Enclosing : ancestorNamespaces(Current)) {
-    Found.push_back(Enclosing);
+    Found.push_back(std::string(Enclosing));
     auto It = UsingDirectives.find(Enclosing);
     if (It != UsingDirectives.end())
       for (const auto &Used : It->second)
-        Found.push_back(Used.getKey());
+        Found.push_back(std::string(Used.getKey()));
   }
 
   llvm::sort(Found, [&](const std::string &LHS, const std::string &RHS) {
